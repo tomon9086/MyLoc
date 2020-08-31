@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:myloc/src/utils/location.dart';
 
 class TestLocation extends StatefulWidget {
   @override
@@ -7,25 +9,21 @@ class TestLocation extends StatefulWidget {
 }
 
 class _TestLocationState extends State<TestLocation> {
-  Position position;
+  bool doneInitialLocation = false;
 
   @override
   void initState() {
     super.initState();
-    _getLocation(context);
-  }
-
-  Future<void> _getLocation(context) async {
-    Position _currentPosition =
-        await getCurrentPosition(desiredAccuracy: LocationAccuracy.medium);
-    print(_currentPosition);
-    setState(() {
-      position = _currentPosition;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final location = Provider.of<Location>(context);
+    if (!doneInitialLocation) {
+      location.getLocation();
+      doneInitialLocation = true;
+    }
+
     return FutureBuilder<LocationPermission>(
       future: checkPermission(),
       builder: (context, snapshot) {
@@ -41,7 +39,7 @@ class _TestLocationState extends State<TestLocation> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text("Current position is: ", style: TextStyle(fontSize: 20)),
-              Text("${position}"),
+              Text("${location.position}"),
             ],
           ),
         );
