@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:myloc/src/widgets/test_location.dart';
+import 'package:myloc/src/widgets/test_bluetooth.dart';
 import 'package:myloc/src/utils/location.dart';
 
 class Home extends StatefulWidget {
@@ -20,8 +21,8 @@ class _HomeState extends State<Home> {
             title: Text('MyLoc'),
           ),
           body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[TestLocation()],
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[TestLocation(), TestBluetooth()],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: location.getLocation,
